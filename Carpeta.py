@@ -1,0 +1,2 @@
+class Carpeta:
+    pass
