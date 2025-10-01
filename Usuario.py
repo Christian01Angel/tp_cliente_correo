@@ -1,14 +1,28 @@
+from Carpeta import Carpeta
+
 class Usuario:
     _dominio = "@spider.com"
-    def __init__(self, nombre, apellido, direccMail, password):
+    def __init__(self, nombre, direccMail, password):
         #self._user_id = user_id // generar algun tipo de numero de 3 cifras ej: "001"
         self._nombre = nombre
-        self._apellido = apellido
         self._correo = direccMail + self._dominio
         self._password = password
-        self._bandeja_entrada = [] #deberia interactuar con el 'Carpeta()' crear // crear un metodo - inicio por defecto con Carpeta('Bandeja_entrada')
-        self._carpeta = {}
+        
+        #un diccionario para guardar carpetas
+        #clave = Nombre_carpeta / valor = Objeto dentro de Carpeta => {mensaje}
+        self._carpetas = {}
 
+        #los usuarios iniciaran con una carpeta por defecto 'bandeja de entrada'
+        self._crear_carpeta_por_defecto()
+
+    @property
+    def email(self):
+        return self._correo
+
+
+    def _crear_carpeta_por_defecto(self):
+        self._carpetas["Bandeja de Entrada"] = Carpeta("Bandeja de Entrada")
+        print(f"Usuario {self._correo} cuenta con carpeta Bandeja de entrada. Por defecto")
 
     """
     def crear_carpeta(self):
@@ -18,5 +32,5 @@ class Usuario:
         pass
         
     def obtener_carpeta(self, nombre_carpeta):
-        pass
+        pass 
     """
