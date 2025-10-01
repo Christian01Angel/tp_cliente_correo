@@ -1,2 +1,6 @@
 class ServidorCorreo:
-    pass
+    def __init__(self):
+        self._usuarios = {} #{'email : obj 'Usuario()'}
+
+
+    
