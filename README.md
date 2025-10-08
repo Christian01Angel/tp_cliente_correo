@@ -3,9 +3,10 @@ TRABAJO Cliente de Correo Electrónico
 integrantes {
   -Juan Cruz Carisimo
   -Tobias Ezequiel Monti
-  -Christian Angel
+  -Christian Leonel Angel
 }
 "Comision 2"
+"Grupo 50"
 
 Materia = "Estructura de datos"
 
