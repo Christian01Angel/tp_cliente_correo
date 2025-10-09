@@ -2,6 +2,7 @@ from Carpeta import Carpeta
 
 class Usuario:
     _dominio = "@spider.com"
+    
     def __init__(self, nombreCompleto, direccMail, password):
         #self._user_id = user_id // generar algun tipo de numero de 3 cifras ej: "001"
         self._nombre = nombreCompleto
@@ -15,9 +16,30 @@ class Usuario:
         #los usuarios iniciaran con una carpeta por defecto 'bandeja de entrada'
         self._crear_carpeta_por_defecto()
 
+
     @property
-    def email(self):
+    def nombre(self):
+        return self._nombre
+    
+    @property
+    def correo(self):
         return self._correo
+    
+    @property
+    def password(self):
+        return self._password
+    
+    @nombre.setter
+    def nombre(self, nuevoNombre):
+        self._nombre = nuevoNombre
+        
+    @correo.setter
+    def correo(self, nuevoCorreo):
+        self._correo = nuevoCorreo + self._dominio
+
+    @password.setter
+    def password(self, nuevoPassword):
+        self._password = nuevoPassword
 
 
     def _crear_carpeta_por_defecto(self):
