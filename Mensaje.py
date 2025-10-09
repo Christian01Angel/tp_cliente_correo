@@ -52,6 +52,9 @@ class Mensaje:
 
     def mover_a_carpeta(self, nueva_carpeta):
         self._carpeta_destino = nueva_carpeta
+
+    def leer_mensaje(self):
+        return f"Asunto: {self._asunto}\nDe: {self.remitenete}\nPara: {self.destinatario}\nFecha: {self.fecha_envio}\n\n{self._cuerpo}"
         
 
 """
