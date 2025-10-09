@@ -8,6 +8,7 @@ class Mensaje:
         self.remitenete = remitente
         self.destinatario = destinatario
         self.fecha_envio = datetime.now()
+        self._destacado = False #Quise agregarle este tributo como para que podamos marcar si queremos que el msj aparezca como destacado o no.
 
 """
     def preview_msj(self):
