@@ -8,3 +8,20 @@ import Usuario
 import datetime
 
 #probamos la instancias y ejecutamos pruebas de correos ...
+"""
+dicc = {}
+
+dicc["001"] = Usuario.Usuario("Juan Perez", "juan.perez", "1234")
+dicc["002"] = Usuario.Usuario("Ana Gomez", "ana.gomez", "abcd")
+dicc["003"] = Usuario.Usuario("Luis Rodriguez", "luis.rodriguez", "pass")
+
+
+for k, v in dicc.items():
+    print(f"Usuario ID: {k} - Nombre: {v.nombre} - Correo: {v.correo} - Password: {v.password}")
+
+dicc.pop( "002" ) #eliminamos usuario Ana Gomez
+
+for k, v in dicc.items():
+    print(f"Usuario ID: {k} - Nombre: {v.nombre} - Correo: {v.correo} - Password: {v.password}")
+"""
+

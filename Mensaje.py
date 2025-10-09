@@ -1,16 +1,18 @@
 from datetime import datetime;
 
 class Mensaje:
+    _id = 1
     def __init__(self,asunto,contentMsj,remitente,destinatario):
-        #self._msj_id '000'
+        self.id = Mensaje._id
+        Mensaje._id += 1
         self._asunto = asunto
         self._cuerpo = contentMsj
         self.remitenete = remitente
         self.destinatario = destinatario
         self.fecha_envio = datetime.now() #atributo para guardar la fecha y hora de envio del msj
-        self._carpeta_destino = "inbox" #atributo para saber en que carpeta se encuentra el msj
+        self._carpeta_destino = "Bandeja de entrada" #atributo para saber en que carpeta se encuentra el msj
         self._leido = False #atributo para saber si el msj fue leído o no
-        self._destacado = False #Quise agregarle este tributo como para que podamos marcar si queremos que el msj aparezca como destacado o no.
+        self._destacado = False #Atributo que guarda al msj como destacado o no.
 
     #Metodo para marcar el msj como leído
     def marcar_leido(self): 
@@ -26,8 +28,10 @@ class Mensaje:
     def marcar_destacado(self):
         if not self._destacado:
             self._destacado = True
+            self._carpeta_destino = "Destacados"
         else:
             self._destacado = False
+            self._carpeta_destino = "Bandeja de entrada"
 
     def es_destacado(self):
         return self._destacado
