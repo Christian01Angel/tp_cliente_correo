@@ -2,9 +2,9 @@ from Carpeta import Carpeta
 
 class Usuario:
     _dominio = "@spider.com"
-    def __init__(self, nombre, direccMail, password):
+    def __init__(self, nombreCompleto, direccMail, password):
         #self._user_id = user_id // generar algun tipo de numero de 3 cifras ej: "001"
-        self._nombre = nombre
+        self._nombre = nombreCompleto
         self._correo = direccMail + self._dominio
         self._password = password
         
