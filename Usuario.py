@@ -1,12 +1,11 @@
 from Carpeta import Carpeta
 
 class Usuario:
-    _dominio = "@spider.com"
     
     def __init__(self, nombreCompleto, direccMail, password):
         #self._user_id = user_id // generar algun tipo de numero de 3 cifras ej: "001"
         self._nombre = nombreCompleto
-        self._correo = direccMail + self._dominio
+        self._correo = direccMail
         self._password = password
         
         #un diccionario para guardar carpetas
@@ -35,7 +34,7 @@ class Usuario:
         
     @correo.setter
     def correo(self, nuevoCorreo):
-        self._correo = nuevoCorreo + self._dominio
+        self._correo = nuevoCorreo
 
     @password.setter
     def password(self, nuevoPassword):
