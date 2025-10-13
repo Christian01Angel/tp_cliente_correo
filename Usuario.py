@@ -2,13 +2,14 @@ from abc import abstractmethod, ABC
 from Carpeta import Carpeta
 
 class Usuario(ABC):
-    
+    _id = 1
     def __init__(self, nombreCompleto, direccMail, password):
-        #self._user_id = user_id // generar algun tipo de numero de 3 cifras ej: "001"
+        self._user_id = self._id 
         self._nombre = nombreCompleto
         self._correo = direccMail
         self._password = password
         self._sesion_iniciada = False
+        self._id += 1
 
 
     @property
@@ -24,15 +25,15 @@ class Usuario(ABC):
         return self._password
     
     @nombre.setter
-    def nombre(self, nuevoNombre):
+    def modificar_nombre(self, nuevoNombre):
         self._nombre = nuevoNombre
         
     @correo.setter
-    def correo(self, nuevoCorreo):
+    def modificar_correo(self, nuevoCorreo):
         self._correo = nuevoCorreo
 
     @password.setter
-    def password(self, nuevoPassword):
+    def modificar_password(self, nuevoPassword):
         self._password = nuevoPassword
 
     @abstractmethod

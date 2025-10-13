@@ -24,22 +24,22 @@ class ServidorCorreo(Usuario, Carpeta, Mensaje):
 
 
     #Método para modificar el correo de un usuario
-    def modificar_mail(self, usuario, nuevoCorreo):
-        if nuevoCorreo in self._cuentas:
+    def modificar_mail(self, nuevoCorreo):
+        usuario = self._cuentas[self._usuario_actual]
+        if nuevoCorreo in self._cuentas[usuario]:
             raise ValueError("El correo ya está en uso")
-        #Recuperamos el correo del usuario antes de modificarlo
-        antiguo_correo = usuario.correo
         #Le asignamos un nuevo correo al usuario
-        usuario.correo = nuevoCorreo + ServidorCorreo._dominio
+        usuario.modificar_correo( nuevoCorreo + ServidorCorreo._dominio)
         print(f"Correo modificado exitosamente a {nuevoCorreo}.")
 
     #metodo para modificar el nombre de un usuario
-    def modificar_nombre(self, usuario, nuevoNombre):
-        usuario.nombre = nuevoNombre
+    def modificar_nombre(self, nuevoNombre):
+        usuario = self._cuentas[self._usuario_actual]
+        usuario.modificar_nombre(nuevoNombre)
         print(f"Nombre modificado exitosamente a {nuevoNombre}.")
 
     #metodo para modificar la contraseña de un usuario
-    def modificar_password(self, usuario):
+    def modificar_password(self):
         antiguoPassword = input("Ingrese su contraseña actual: ")
         if antiguoPassword != usuario.password:
             raise ValueError("Contraseña actual incorrecta")
@@ -47,7 +47,8 @@ class ServidorCorreo(Usuario, Carpeta, Mensaje):
             nuevoPassword = input("Ingrese su nueva contraseña: ")
             if antiguoPassword == nuevoPassword:
                 raise ValueError("La nueva contraseña no puede ser igual a la actual")
-            usuario.password = nuevoPassword
+            usuario = self._cuentas[self._usuario_actual]
+            usuario.modificar_password(nuevoPassword)
         print("Contraseña modificada exitosamente.")
 
     #Método para iniciar sesion
