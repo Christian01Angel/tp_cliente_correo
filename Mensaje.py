@@ -12,6 +12,8 @@ class Mensaje(ABC):
         self.destinatario = destinatario
         self.fecha_envio = datetime.now() #atributo para guardar la fecha y hora de envio del msj
         self._carpeta_destino = "Bandeja de entrada" #atributo para saber en que carpeta se encuentra el msj
+        self._mensajeAnterior = None
+        self._mensajeSiguiente = None
         self._leido = False #atributo para saber si el msj fue leído o no
         self._destacado = False #Atributo que guarda al msj como destacado o no.
         self._adjuntos = adjuntos #atributo para guardar los archivos adjuntos del msj
@@ -20,30 +22,14 @@ class Mensaje(ABC):
     @abstractmethod
     def marcar_leido(self):
         pass
-        """
-        if not self._leido:
-            self._leido = True
-        """
 
     #Metodo para marcar el msj como no leído
     def marcar_no_leido(self):
         pass
-        """
-        if self._leido:
-            self._leido = False
-        """
 
     #Metodo para marcar o desmarcar el msj como destacado
     def marcar_destacado(self):
         pass
-        """
-        if not self._destacado:
-            self._destacado = True
-            self._carpeta_destino = "Destacados"
-        else:
-            self._destacado = False
-            self._carpeta_destino = "Bandeja de entrada"
-        """
 
     def es_destacado(self):
         pass
@@ -56,45 +42,27 @@ class Mensaje(ABC):
     @abstractmethod
     def reenviar(self, msj, destinatario = 'self.destinatario'):
         pass
-        """
-        nuevo_msj = Mensaje(msj._asunto, msj._cuerpo, msj.remitenete, destinatario)
-        return nuevo_msj
-        """
     
     @abstractmethod
     def abrir_mensaje(self):
         pass
-        """
-        self.marcar_leido()
-        return f"Asunto: {self._asunto}\nDe: {self.remitenete}\nPara: {self.destinatario}\nFecha: {self.fecha_envio}\n\n{self._cuerpo}"
-        """
 
     @abstractmethod
     def responder(self, cuerpo_respuesta):
         pass
-        """
-        nuevo_mensaje = Mensaje(self.asunto, cuerpo_respuesta, self.destinatario, self.remitenete)
-        return f"Mensaje Enviado"
-        """
     
-    def eliminar(self):
+    @abstractmethod
+    def eliminar_mensaje(self):
         pass
-        """
-        del(self)
-        """
 
+    @abstractmethod
     def mover_a_carpeta(self, nueva_carpeta):
         pass
-        """
-        self._carpeta_destino = nueva_carpeta
-        """
 
-    def leer_mensaje(self):
+    @abstractmethod
+    def agregar_adjunto(self, archivo):
         pass
-        """
-        self.marcar_leido()
-        return f"Asunto: {self._asunto}\nDe: {self.remitenete}\nPara: {self.destinatario}\nFecha: {self.fecha_envio}\n\n{self._cuerpo}"
-        """
+
         
 
 """
@@ -111,7 +79,5 @@ class Mensaje(ABC):
         
     def responder_a_todos(self):
         pass
-        
-        
         
 """

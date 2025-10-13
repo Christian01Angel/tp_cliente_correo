@@ -18,11 +18,4 @@ class Carpeta:
     @abstractmethod
     def eliminar_carpeta(self):
         pass
-        """
-        #Metodo para eliminar una carpeta
-        if self._nombre_carpeta in usuario._carpetas:
-            del usuario._carpetas[self._nombre_carpeta]
-            print(f"Carpeta '{self._nombre_carpeta}' eliminada exitosamente.")
-        else:
-            raise ValueError("La carpeta no existe")
-        """
+    
