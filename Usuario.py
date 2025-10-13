@@ -9,13 +9,6 @@ class Usuario(ABC):
         self._correo = direccMail
         self._password = password
         self._sesion_iniciada = False
-        
-        #un diccionario para guardar carpetas
-        #clave = Nombre_carpeta / valor = Objeto dentro de Carpeta => {mensaje}
-        self._carpetas = {}
-
-        #los usuarios iniciaran con una carpeta por defecto 'bandeja de entrada'
-        #self._crear_carpeta_por_defecto() Este lo manejamos directamente desde el servidor
 
 
     @property
@@ -43,7 +36,7 @@ class Usuario(ABC):
         self._password = nuevoPassword
 
     @abstractmethod
-    def inisiar_sesion(self):
+    def iniciar_sesion(self):
         pass
 
     @abstractmethod

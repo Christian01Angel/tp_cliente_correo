@@ -3,7 +3,7 @@ from datetime import datetime;
 
 class Mensaje(ABC):
     _id = 1
-    def __init__(self,asunto,contentMsj,remitente,destinatario):
+    def __init__(self,asunto,remitente,destinatario, contentMsj, adjuntos = None):
         self.id = Mensaje._id
         Mensaje._id += 1
         self._asunto = asunto
@@ -14,6 +14,7 @@ class Mensaje(ABC):
         self._carpeta_destino = "Bandeja de entrada" #atributo para saber en que carpeta se encuentra el msj
         self._leido = False #atributo para saber si el msj fue leído o no
         self._destacado = False #Atributo que guarda al msj como destacado o no.
+        self._adjuntos = adjuntos #atributo para guardar los archivos adjuntos del msj
 
     #Metodo para marcar el msj como leído
     @abstractmethod
