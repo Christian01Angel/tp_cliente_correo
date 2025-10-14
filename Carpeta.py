@@ -1,7 +1,6 @@
 from abc import abstractmethod, ABC
-import Mensaje
 
-class Carpeta:
+class Carpeta(ABC):
     def __init__(self, nombre):
         self._nombre_carpeta = nombre
         # Los mensajes se guardan de manera completa, pero se previsualizaran con: 'asunto', 'remitente', 'Fecha' hasta que se deseen ver completos

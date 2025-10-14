@@ -1,5 +1,4 @@
 from abc import abstractmethod, ABC
-from Carpeta import Carpeta
 
 class Usuario(ABC):
     _id = 1
