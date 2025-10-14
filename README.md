@@ -14,4 +14,4 @@ OBJETIVO: Diseñar e implementar, en Python, un sistema orientado a objetos que 
  correo electrónico, permitiendo la gestión de usuarios, mensajes, carpetas, filtros y operaciones típicas de
  un entorno de email.
 
-link diagrama UML = https://excalidraw.com/#json=zFwM3dJ3ZUpDoYvL51hgM,Sw0GqDfF0mGMsgYF_mHwCw
+link diagrama UML = https://excalidraw.com/#json=sjhvCNztr3hGBfVjHm4cH,b8xwEvD4gRnfxPT_hf3Adg
