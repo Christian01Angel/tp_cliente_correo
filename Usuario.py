@@ -1,7 +1,6 @@
-from abc import abstractmethod, ABC
-
-class Usuario(ABC):
+class Usuario():
     _id = 1
+    _usuarios = {}
     def __init__(self, nombreCompleto, direccMail, password):
         self._user_id = self._id 
         self._nombre = nombreCompleto
@@ -9,6 +8,8 @@ class Usuario(ABC):
         self._password = password
         self._sesion_iniciada = False
         self._id += 1
+        self._usuario = [self._user_id, self._nombre, self._correo, self._password, self._sesion_iniciada]
+        Usuario._usuarios[self._correo] = self._usuario
 
 
     @property
@@ -34,14 +35,13 @@ class Usuario(ABC):
     @password.setter
     def modificar_password(self, nuevoPassword):
         self._password = nuevoPassword
-
-    @abstractmethod
-    def iniciar_sesion(self):
-        pass
-
-    @abstractmethod
-    def cerrar_sesion(self):
-        pass
+    
+    
+    def eliminar_usuario(self, direccMail):
+        if direccMail not in self._cuentas:
+            raise ValueError("El usuario no existe")
+        del self._cuentas[direccMail]
+        print(f"Usuario {direccMail} eliminado exitosamente.")
 
     
 

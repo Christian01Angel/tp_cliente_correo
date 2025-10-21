@@ -1,7 +1,7 @@
 #podriamos agrupar todas clases en un .py - a revisar en un meet con el grupo
 
 import Mensaje
-import ServidorCorreo
+#import ServidorCorreo
 import Carpeta
 import Usuario
 
@@ -25,15 +25,8 @@ for k, v in dicc.items():
     print(f"Usuario ID: {k} - Nombre: {v.nombre} - Correo: {v.correo} - Password: {v.password}")
 """
 
-dicc = {}
+dicc = {'001': 'Juan Perez', '002': 'Ana Gomez', '003': 'Luis Rodriguez'}
 
-usuario = Usuario.Usuario("Juan Perez", "juan.perez", "1234")
-carpeta = Carpeta.Carpeta("Bandeja de entrada")
-
-lista = [usuario, carpeta]
-
-dicc[usuario] = carpeta
-for k, v in dicc.items():
-    print(f"Usuario: {k.nombre} - Correo: {k.correo} - Contraseña: {k.password} - Carpeta: {v.nombre_carpeta}")
+print(list(dicc)[-1])
 
 
