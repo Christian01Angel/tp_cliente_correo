@@ -45,3 +45,18 @@ class Carpeta():
         #Metodo para agregar un mensaje a la carpeta
         self._mensajes[mensaje] = mensaje
         print("Mensaje agregado exitosamente a la carpeta.")
+
+
+#Main: pruebas de la clase carpeta
+if __name__ == "__main__":
+    try:
+        carpeta1 = Carpeta("Bandeja de entrada")
+        carpeta2 = Carpeta("Enviados")
+        carpeta3 = Carpeta("Span")
+        carpeta4 = Carpeta("Papelera")
+        carpeta5 = Carpeta("Destacados")
+        carpeta6 = Carpeta("Recibidos")
+
+        carpetas = [carpeta1, carpeta2, carpeta3, carpeta4, carpeta5, carpeta6]
+    except Exception as e:
+        print("Error al crear carpeta: {e}")

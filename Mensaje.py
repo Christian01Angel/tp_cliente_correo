@@ -1,18 +1,18 @@
 from datetime import datetime
 
 class Mensaje():
-    def __init__(self,asunto,remitente,destinatario, contentMsj, adjuntos = None):
+    def __init__(self,asunto,remitente,destinatario, contentMsj, adjunto = ""):
         self._asunto = asunto
         self._remitente = remitente
         self._destinatario = destinatario
         self._cuerpo = contentMsj
         self._fecha_envio = datetime.now() #atributo para guardar la fecha y hora de envio del msj
         self._carpeta_destino = "Bandeja de entrada" #atributo para saber en que carpeta se encuentra el msj
-        self._mensajeAnterior = None
-        self._mensajeSiguiente = None
+        self.mensajeAnterior = None
+        self.mensajeSiguiente = None
         self._leido = False #atributo para saber si el msj fue leído o no
         self._destacado = False #Atributo que guarda al msj como destacado o no.
-        self._adjuntos = adjuntos #atributo para guardar los archivos adjuntos del msj
+        self._adjuntos = adjunto #atributo para guardar los archivos adjuntos del msj
 
     #Getters
 
@@ -47,16 +47,6 @@ class Mensaje():
         return self._carpeta_destino
     
     @property
-    def mensajeAnterior(self):
-        #Metodo para obtener el id del mensaje
-        return self._mensajeAnterior
-    
-    @property
-    def mensajeSiguiente(self):
-        #Metodo para obtener el id del mensaje
-        return self._mensajeSiguiente
-    
-    @property
     def adjuntos(self):
         #Metodo para obtener los archivos adjuntos del mensaje
         return self._adjuntos
@@ -76,12 +66,6 @@ class Mensaje():
     def mensaje_anterior(self):
         #Metodo para obtener el mensaje anterior
         return self._mensajeAnterior
-
-        
-    def eliminar_mensaje(self):
-        #Metodo para eliminar un mensaje
-        del self
-        print("Mensaje eliminado exitosamente.")
         
     def marcar_leido(self):
         #Metodo para marcar el mensaje como leído
@@ -132,7 +116,11 @@ class Mensaje():
 
     def mostrar_mensajes(self):
         #Metodo para mostrar los mensajes en forma de lista
-        print(f"{self.remitente}        {self.fecha_envio} \n  {self.asunto} \n {self.cuerpo[:30]}... \n {self.carpeta_destino}\n")
+        print(f"""{self.remitente} - {self.fecha_envio}
+{self.asunto}
+{self.cuerpo[:30]}...
+{self._adjuntos}
+""")
 
 """
     def preview_msj(self):
@@ -177,14 +165,6 @@ if __name__ == "__main__":
         mensaje5.carpeta_destino = "Enviados"
         print("Marcando destacado")
         mensaje1.marcar_destacado()
-        print("Eliminando mensaje")
-        mensaje2.eliminar_mensaje()
-
-        mensajes_chris[mensaje1] = mensaje1
-        mensajes_chris[mensaje2] = mensaje2
-        mensajes_chris[mensaje4] = mensaje4
-        mensajes_patri[mensaje3] = mensaje3
-        mensajes_patri[mensaje5] = mensaje5
 
         print("Mostrando Mensajes despues de cambios \n")
         print("Mostrando mensajes de chris:")
