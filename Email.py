@@ -1,8 +1,10 @@
-from ABC import ABC, abstractmethod
-class Email:
+from abc import ABC, abstractmethod
+
+class Email(ABC):
     def __init__(self):
         pass
 
+    #Métodos para usuarios
     @abstractmethod
     def iniciar_sesion(self, direccMail, password):
         pass
@@ -11,6 +13,11 @@ class Email:
     def cerrar_sesion(self):
         pass
 
+    @abstractmethod
+    def eliminar_usuario(self):
+        pass
+
+    #Métodos para mensajes
     @abstractmethod
     def enviar_mail(self):
         pass
@@ -39,4 +46,3 @@ class Email:
     @abstractmethod
     def vaciar_papelera(self):
         pass
-    

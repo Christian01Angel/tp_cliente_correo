@@ -1,15 +1,12 @@
 class Usuario():
     _id = 1
-    _usuarios = {}
     def __init__(self, nombreCompleto, direccMail, password):
-        self._user_id = self._id 
+        self._user_id = Usuario._id 
         self._nombre = nombreCompleto
         self._correo = direccMail
         self._password = password
         self._sesion_iniciada = False
-        self._id += 1
-        self._usuario = [self._user_id, self._nombre, self._correo, self._password, self._sesion_iniciada]
-        Usuario._usuarios[self._correo] = self._usuario
+        Usuario._id += 1
 
 
     @property
@@ -21,43 +18,48 @@ class Usuario():
         return self._correo
     
     @property
+    def user_id(self):
+        return self._user_id
+    
+    @property
     def password(self):
         return self._password
     
     @nombre.setter
-    def modificar_nombre(self, nuevoNombre):
+    def nombre(self, nuevoNombre):
         self._nombre = nuevoNombre
         
     @correo.setter
-    def modificar_correo(self, nuevoCorreo):
+    def correo(self, nuevoCorreo):
         self._correo = nuevoCorreo
 
     @password.setter
-    def modificar_password(self, nuevoPassword):
+    def password(self, nuevoPassword):
         self._password = nuevoPassword
-    
-    
-    def eliminar_usuario(self, direccMail):
-        if direccMail not in self._cuentas:
-            raise ValueError("El usuario no existe")
-        del self._cuentas[direccMail]
-        print(f"Usuario {direccMail} eliminado exitosamente.")
 
     
 
 
-    """
-       Yo creo que estos metodos no van
-    def _crear_carpeta_por_defecto(self):
-        self._carpetas["Bandeja de Entrada"] = Carpeta("Bandeja de Entrada")
-        print(f"Usuario {self._correo} cuenta con carpeta Bandeja de entrada. Por defecto")
-    
-    def crear_carpeta(self):
-        pass
-        
-    def obtener_band_entrada(self):
-        pass
-        
-    def obtener_carpeta(self, nombre_carpeta):
-        pass 
-    """
+
+#Main: Pruebas de la clase Usuario
+if __name__ == "__main__":
+    try:
+        usuarios = []
+        print("Creando usuarios:")
+        usuario1 = Usuario("Juan Perez", "juanperez@mamil.com", "securepassword123")
+        usuario2 = Usuario("Ana Gomez", "anagomez@mail.com", "mypassword456")
+        usuario3 = Usuario("Luis Rodriguez", "luisrodriguez@mail.com", "password789")
+        usuarios.extend([usuario1, usuario2, usuario3])
+        for usuario in usuarios:
+            print(f"Usuario creado: ID={usuario.user_id}, Nombre={usuario.nombre}, Correo={usuario.correo}, Password={usuario.password}, Sesion Iniciada={usuario._sesion_iniciada}")
+        print("Modificando Correo")
+        usuario1.correo = "juanperez@mail.com"
+        print("Modificando Password")
+        usuario3.password = "newpassword789"
+        print("Modificando nombre")
+        usuario2.nombre = "Anahí Gomez"
+        print("\nDespués de modificaciones:")
+        for usuario in usuarios:
+            print(f"Usuario creado: ID={usuario.user_id}, Nombre={usuario.nombre}, Correo={usuario.correo}, Password={usuario.password}, Sesion Iniciada={usuario._sesion_iniciada}")
+    except Exception as e:
+        print(f"Error al crear usuario: {e}")

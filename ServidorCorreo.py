@@ -73,6 +73,12 @@ class ServidorCorreo(Email):
             usuario.modificar_password(nuevoPassword)
         print("Contraseña modificada exitosamente.")
 
+    def eliminar_usuario(self, direccMail):
+        if direccMail not in self._cuentas:
+            raise ValueError("El usuario no existe")
+        del self._cuentas[direccMail]
+        print(f"Usuario {direccMail} eliminado exitosamente.")
+
     #Aca comienzan los métodos de carpetas
 
     def crear_carpetas_por_defecto(self):
