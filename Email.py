@@ -6,6 +6,10 @@ class Email(ABC):
 
     #Métodos para usuarios
     @abstractmethod
+    def crear_usuario(self):
+        pass
+
+    @abstractmethod
     def iniciar_sesion(self, direccMail, password):
         pass
 
@@ -35,6 +39,7 @@ class Email(ABC):
         pass
 
     #Metodos para carpetas
+    
     @abstractmethod
     def crear_carpetas_por_defecto(self):
         pass
@@ -45,4 +50,8 @@ class Email(ABC):
 
     @abstractmethod
     def vaciar_papelera(self):
+        pass
+
+    @abstractmethod
+    def eliminar_carpeta(self):
         pass

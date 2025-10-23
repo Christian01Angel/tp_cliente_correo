@@ -7,8 +7,10 @@ class Usuario():
         self._password = password
         self._sesion_iniciada = False
         Usuario._id += 1
+        # El diccionario almacena: {nombre_carpeta (str): objeto_Carpeta}
+        self._carpetas = {}
 
-
+    #                                                 ----- Getters y Setters -----
     @property
     def nombre(self):
         return self._nombre
@@ -37,7 +39,30 @@ class Usuario():
     def password(self, nuevoPassword):
         self._password = nuevoPassword
 
-    
+    #                                            ----- Métodos de gestión de carpetas -----
+
+    def agregar_carpeta(self, carpeta):
+        nombre = carpeta.nombre_carpeta
+        if nombre in self._carpetas:
+            raise ValueError(f'La carpeta {nombre} ya existe')
+        self._carpetas[nombre] = carpeta
+        print(f'Carpeta {nombre} creada exitosamente')
+
+    def eliminar_carpeta(self, carpeta):
+        nombre = carpeta.nombre_carpeta
+        if nombre not in self._carpetas:
+            raise ValueError(f'La carpeta que desea eliminar no existe')
+        del self._carpetas[nombre]
+        print(f'La carpeta {nombre} fue eliminada exitosamente')
+
+    def ver_carpeta(self, carpeta):
+        nombre = carpeta.nombre_carpeta
+        if nombre not in self._carpetas:
+            raise ValueError(f'La carpeta {nombre} no forma parte de tu colección de carpetas')
+        print(carpeta.nombre_carpeta)
+        carpeta_usuario = self._carpetas[nombre]
+        for msj in carpeta_usuario.mensajes:
+            msj.mensaje_preview()
 
 
 

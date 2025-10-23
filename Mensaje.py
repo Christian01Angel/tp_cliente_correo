@@ -1,20 +1,25 @@
 from datetime import datetime
 
 class Mensaje():
-    def __init__(self,asunto,remitente,destinatario, contentMsj, adjunto = ""):
+    id = 1
+    def __init__(self,asunto,remitente,destinatario, contentMsj, adjunto = []):
+        self._msj_id = Mensaje.id
+        Mensaje.id +=1
         self._asunto = asunto
         self._remitente = remitente
         self._destinatario = destinatario
         self._cuerpo = contentMsj
         self._fecha_envio = datetime.now() #atributo para guardar la fecha y hora de envio del msj
         self._carpeta_destino = "Bandeja de entrada" #atributo para saber en que carpeta se encuentra el msj
-        self.mensajeAnterior = None
-        self.mensajeSiguiente = None
         self._leido = False #atributo para saber si el msj fue leído o no
         self._destacado = False #Atributo que guarda al msj como destacado o no.
         self._adjuntos = adjunto #atributo para guardar los archivos adjuntos del msj
 
-    #Getters
+        # Atributos públicos, relación con otros Mensajes
+        self.mensajeAnterior = None
+        self.mensajeSiguiente = None
+
+    #                                                   ----- Getters y Setters -----
 
     @property
     def asunto(self):
@@ -50,7 +55,6 @@ class Mensaje():
     def adjuntos(self):
         #Metodo para obtener los archivos adjuntos del mensaje
         return self._adjuntos
-    #Fin Getters
 
     @carpeta_destino.setter
     def carpeta_destino(self, nuevaCarpeta):
@@ -58,14 +62,7 @@ class Mensaje():
         self._carpeta_destino = nuevaCarpeta
         print(f"Mensaje movido a la carpeta '{nuevaCarpeta}' exitosamente.")
 
-    #Métodos
-    def mensaje_siguiente(self):
-        #Metodo para obtener el siguiente mensaje
-        return self._mensajeSiguiente
-    
-    def mensaje_anterior(self):
-        #Metodo para obtener el mensaje anterior
-        return self._mensajeAnterior
+    #                                                ----- Métodos para manejo de Mensajes -----
         
     def marcar_leido(self):
         #Metodo para marcar el mensaje como leído
@@ -100,11 +97,11 @@ class Mensaje():
 
     def agregar_adjunto(self, adjunto):
         #Metodo para agregar un archivo adjunto al mensaje
-        #Preguntamos si desea agregar un archivo adjunto
-        self._adjuntos = adjunto
+        self._adjuntos.append(adjunto)
+        print(f"Adjunto '{adjunto}' agregado.")
 
     def leer(self):
-        #Metodo para leer el mensaje completo
+        #Metodo para leer el mensaje completo. Támbien lo marca como leído
         print(f"{self._asunto}")
         print(f"{self.remitente} -- {self.fecha_envio}")
         print(f"Para {self.destinatario}")
@@ -114,11 +111,11 @@ class Mensaje():
             print(f"{self._adjuntos}")
         self._leido = True
 
-    def mostrar_mensajes(self):
-        #Metodo para mostrar los mensajes en forma de lista
+    def mensaje_preview(self):
+        #Muestra una vista previa del mensaje para la lista de la carpeta.
         print(f"""{self.remitente} - {self.fecha_envio}
 {self.asunto}
-{self.cuerpo[:30]}...
+{self.cuerpo[:40]}...
 {self._adjuntos}
 """)
 
