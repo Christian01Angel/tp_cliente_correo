@@ -4,43 +4,60 @@ import Mensaje
 import Email
 
 class ServidorCorreo(Email):
-    _dominio = "@spider.com"
     def __init__(self):
-        self._usuario_actual = None
-        self._cuentas = {} #{' obj 'Usuario' : dicc '_carpetas_por_defecto'}
+        super().__init__
+        self.usuario_actual = ""
+        self._dominio = "@spider.com"
         self._carpetas_por_defecto = self.cargar_carpetas() #Cargamos las carpetas por defecto que maneja el servidor
 
     
-    #Aca comienzan los métodos de usuarios:
+    #                              ----- Aca comienzan los métodos de usuarios -----
 
     #Metodo para registrar un nuevo usuario
-    def registrar_usuario(self, nombreCompleto, direccMail, password): #Podriamos hacer todos los metodos sin parametros y pedirlos por input
-        pass
+    def registrar_usuario(self): #Podriamos hacer todos los metodos sin parametros y pedirlos por input
+        nombre = input('Ingrese su nombre completo: ')
+        direcc_mail = input('Ingrese el correo sin el @: ') + self._dominio
+        if direcc_mail in self._usuarios:
+            raise ValueError(f'Ese correo ya se encuentra registrado')
+        password = input('Ingrese su contraseña: ')
+        usuario = Usuario(nombre, direcc_mail, password)
+        self._usuarios[direcc_mail] = usuario
+        self._usuario_actual = direcc_mail
 
     #Método para iniciar sesion
-    def iniciar_sesion(self, direccMail, password):
-        pass
+    def iniciar_sesion(self):
+        if self._usuario_actual:
+            raise ValueError(f'La sesion ya esta en uso por {self._usuario_actual}')
+        direcc_mail = input('Ingrese su direccion de mail: ')
+        while (direcc_mail not in self._usuarios):
+            print('El correo no se encuentra registrado')
+            direcc_mail = input('Ingrese su direccion de mail: ')
+            usuario = self._usuarios[direcc_mail]
+        password = input('Ingrese su contraseña: ')
+        while(password != usuario.password):
+            print('Contraseña incorrecta')
+            password = input('Ingrese su contraseña: ')
+        print(f'Inicio de sesion exitoso, bienvenido de vuelta {usuario.nombre}')
+        usuario.ver_carpeta('Bandeja de entrada')
+
     
     #Método para cerrar sesion
     def cerrar_sesion(self):
         pass
 
-    #Método para modificar el correo de un usuario. MODIFICAR METODO PARA QUE NO PIDA VERIFICACION, SINO QUE SE TOME EL CORREO ACTUAL Y NO SE VERIFIQIE SI EXISTE
-    def modificar_mail(self, nuevoCorreo):
-        pass
-
     #metodo para modificar el nombre de un usuario
-    def modificar_nombre(self, nuevoNombre):
+    def modificar_nombre(self):
         pass
 
     #metodo para modificar la contraseña de un usuario
     def modificar_password(self):
         pass
 
-    def eliminar_usuario(self, direccMail):
+    def eliminar_usuario(self):
         pass
 
-    #Aca comienzan los métodos de carpetas
+
+    #                                      ----- Aca comienzan los métodos de carpetas -----
 
     def crear_carpetas_por_defecto(self):
         #Se cargan las 5 carpetas por defecto que maneja el servidor
@@ -50,22 +67,26 @@ class ServidorCorreo(Email):
         Carpeta("Destacados")
         Carpeta("Spam")
 
-    def crear_carpeta(self, nombre_carpeta):
+    def crear_carpeta(self):
         #Se verifica que la carpeta no exista
         pass
-    
-    def obtener_bandeja_entrada(self):
-        #Metodo para mostrar la bandeja de entrada del usuario
+
+    def mostrar_carpeta(self):
+        #Metodo para mostrar una carpeta en particular        
         pass
     
-    def vaciar_papelera(self, usuario):
+    def vaciar_papelera(self):
         #Metodo para vaciar la papelera
         pass
 
-    #Aca comienzan los métodos de mensajes
+    def eliminar_carpeta(self):
+        #Metodo para eliminar una carpeta
+        pass
+
+    #                                    ----- Aca comienzan los métodos de manejo de mensajes -----
 
     #Metodo para enviar mensajes
-    def enviar_mail(self, asunto, destinatario, cuerpo):
+    def enviar_mail(self):
         #Metodo para enviar un mensaje
         pass
 
@@ -77,14 +98,9 @@ class ServidorCorreo(Email):
         #Metodo para abrir un mensaje
         pass
 
-    def responder(self, cuerpo_respuesta):
+    def responder(self):
         #Metodo para responder un mensaje
         pass
 
-    def mostrar_carpeta(self, nombre_carpeta):
-        #Metodo para mostrar una carpeta en particular        
-        pass
-
-    def eliminar_carpeta(self, nombre_carpeta):
-        #Metodo para eliminar una carpeta
+    def buscar_mail(self):
         pass

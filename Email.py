@@ -2,15 +2,15 @@ from abc import ABC, abstractmethod
 
 class Email(ABC):
     def __init__(self):
+        self._usuarios = {}
+
+    #                                  ----- Métodos para usuarios -----
+    @abstractmethod
+    def registrar_usuario(self):
         pass
 
-    #Métodos para usuarios
     @abstractmethod
-    def crear_usuario(self):
-        pass
-
-    @abstractmethod
-    def iniciar_sesion(self, direccMail, password):
+    def iniciar_sesion(self):
         pass
 
     @abstractmethod
@@ -18,10 +18,18 @@ class Email(ABC):
         pass
 
     @abstractmethod
+    def modificar_nombre(self):
+        pass
+
+    @abstractmethod
+    def moificar_password(self):
+        pass
+
+    @abstractmethod
     def eliminar_usuario(self):
         pass
 
-    #Métodos para mensajes
+    #                                  ----- Métodos para mensajes -----
     @abstractmethod
     def enviar_mail(self):
         pass
@@ -38,14 +46,22 @@ class Email(ABC):
     def responder(self):
         pass
 
-    #Metodos para carpetas
+    @abstractmethod
+    def buscar_mail(self):
+        pass
+
+    #                                         ----- Metodos para carpetas -----
     
     @abstractmethod
     def crear_carpetas_por_defecto(self):
         pass
 
     @abstractmethod
-    def obtener_bandeja_entrada(self):
+    def crear_carpeta(self):
+        pass
+
+    @abstractmethod
+    def mostrar_carpeta(self):
         pass
 
     @abstractmethod
