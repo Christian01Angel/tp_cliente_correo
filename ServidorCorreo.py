@@ -6,7 +6,7 @@ import Email
 class ServidorCorreo(Email):
     def __init__(self):
         super().__init__
-        self.usuario_actual = ""
+        self.usuario_actual = None
         self._dominio = "@spider.com"
         self._carpetas_por_defecto = self.cargar_carpetas() #Cargamos las carpetas por defecto que maneja el servidor
 
@@ -26,7 +26,7 @@ class ServidorCorreo(Email):
 
     #Método para iniciar sesion
     def iniciar_sesion(self):
-        if self._usuario_actual:
+        if self._usuario_actual is not None:
             raise ValueError(f'La sesion ya esta en uso por {self._usuario_actual}')
         direcc_mail = input('Ingrese su direccion de mail: ')
         while (direcc_mail not in self._usuarios):
@@ -43,15 +43,33 @@ class ServidorCorreo(Email):
     
     #Método para cerrar sesion
     def cerrar_sesion(self):
-        pass
+        if self._usuario_actual is not None:
+            self._usuario_actual = None
+        raise ValueError('No se encuentra una sesion iniciada')
 
     #metodo para modificar el nombre de un usuario
     def modificar_nombre(self):
-        pass
-
+        usuario = self._usuarios[self._usuario_actual]
+        if self._usuario_actual is not None:
+            nombre_nuevo = input('Ingrese su nuevo nombre: ')
+            usuario.nombre = nombre_nuevo
+            print(f'Nombre modificado correctamente a {nombre_nuevo}')
+        raise ValueError('No se encontro un usuario en sesion')
+    
     #metodo para modificar la contraseña de un usuario
     def modificar_password(self):
-        pass
+        usuario = self._usuarios[self._usuario_actual]
+        if self._usuario_actual is None:
+            raise ValueError(f'No hay ningun usuario en sesion')
+        pass_actual = input('Ingrese su contraseña actual: ')
+        while (pass_actual != usuario.password):
+            pass_actual = input('Contraseña incorrecta, intente nuevamnete: ')
+        if pass_actual == usuario.password:
+            pass_nuevo = input('Ingrese la nueva contraseña: ')
+            usuario.password = pass_nuevo
+            print('La contraseña se modifico correctamente')
+        
+
 
     def eliminar_usuario(self):
         pass
