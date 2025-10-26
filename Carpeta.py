@@ -33,6 +33,10 @@ class Carpeta():
         del self._mensajes[msj_id]
         print("Mensaje eliminado exitosamente.")
 
+    def vaciar_mensajes(self):
+        #Se vacia la coleccion de mensajes de la carpeta
+        self._mensajes = {}
+
 
 #Main: pruebas de la clase carpeta
 if __name__ == "__main__":

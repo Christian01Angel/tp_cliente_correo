@@ -1,9 +1,6 @@
 from abc import ABC, abstractmethod
 
 class Email(ABC):
-    def __init__(self):
-        self._usuarios = {}
-
     #                                  ----- Métodos para usuarios -----
     @abstractmethod
     def registrar_usuario(self):

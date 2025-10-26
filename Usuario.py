@@ -27,6 +27,10 @@ class Usuario():
     def password(self):
         return self._password
     
+    @property
+    def carpetas(self):
+        return self._carpetas
+    
     @nombre.setter
     def nombre(self, nuevoNombre):
         self._nombre = nuevoNombre

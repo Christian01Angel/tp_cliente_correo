@@ -8,6 +8,7 @@ class ServidorCorreo(Email):
         super().__init__
         self.usuario_actual = None
         self._dominio = "@spider.com"
+        self._usuarios = {}
         self._carpetas_por_defecto = self.cargar_carpetas() #Cargamos las carpetas por defecto que maneja el servidor
 
     
@@ -21,7 +22,12 @@ class ServidorCorreo(Email):
             raise ValueError(f'Ese correo ya se encuentra registrado')
         password = input('Ingrese su contraseña: ')
         usuario = Usuario(nombre, direcc_mail, password)
+        #Las carpetas creadas por defecto se asignan a la colección de carpetas del usuario creado
+        for carpeta in self._carpetas_por_defecto:
+            usuario.carpetas[carpeta.nombre] = carpeta
+        #Se asigna al usuario a la base de datos de usuarios del servidor
         self._usuarios[direcc_mail] = usuario
+        #El usuario queda con la sesión iniciada hasta que se cierre la sesión
         self._usuario_actual = direcc_mail
 
     #Método para iniciar sesion
@@ -68,38 +74,67 @@ class ServidorCorreo(Email):
             pass_nuevo = input('Ingrese la nueva contraseña: ')
             usuario.password = pass_nuevo
             print('La contraseña se modifico correctamente')
-        
 
 
     def eliminar_usuario(self):
-        pass
-
+        if self._usuario_actual is None:
+            raise ValueError('No hay una sesión iniciada')
+        del self._usuarios[self._usuario_actual]
 
     #                                      ----- Aca comienzan los métodos de carpetas -----
 
     def crear_carpetas_por_defecto(self):
         #Se cargan las 5 carpetas por defecto que maneja el servidor
-        Carpeta("Bandeja de Entrada")
-        Carpeta("Enviados")
-        Carpeta("Papelera")
-        Carpeta("Destacados")
-        Carpeta("Spam")
+        carpeta1 = Carpeta("Bandeja de Entrada")
+        carpeta2 = Carpeta("Enviados")
+        carpeta3 = Carpeta("Papelera")
+        carpeta4 = Carpeta("Destacados")
+        carpeta5 = Carpeta("Spam")
+        return [carpeta1, carpeta2, carpeta3, carpeta4, carpeta5]
 
     def crear_carpeta(self):
-        #Se verifica que la carpeta no exista
-        pass
+        #Se verifica que el usuario tenga la sesion iniciada.
+        if self._usuario_actual == None:
+            raise ValueError('No hay una sesión iniciada')
+        nombre_carpeta = input('Ingrese el nombre de la carpeta a crear: ')
+        usuario = self._usuarios[self._usuario_actual]
+        #Se verifica que la carpeta a crear no sea parte de la colección de carpetas del usuario
+        while nombre_carpeta in usuario.carpetas:
+            nombre_carpeta = input(f'La carpeta {nombre_carpeta} ya existe. Ingrese un nuevo nombre: ')
+        carpeta = Carpeta(nombre_carpeta)
+        usuario.carpetas[nombre_carpeta] = carpeta
+        print(f"La carpeta {nombre_carpeta} se creo exitosamente")
 
-    def mostrar_carpeta(self):
-        #Metodo para mostrar una carpeta en particular        
-        pass
+        
+
+    def mostrar_carpeta(self, nombre_carpeta):
+        #Metodo para mostrar una carpeta en particular
+        #Se verifica que el usuario tenga la sesion iniciada.
+        if self._usuario_actual == None:
+            raise ValueError('No hay una sesión iniciada')
+        #Se manda a llamar el método para visualizar carpetas del usuario
+        usuario = self._usuarios[self._usuario_actual].ver_carpeta(nombre_carpeta)
     
     def vaciar_papelera(self):
         #Metodo para vaciar la papelera
-        pass
+        #Se verifica que el usuario tenga la sesion iniciada.
+        if self._usuario_actual == None:
+            raise ValueError('No hay una sesión iniciada')
+        self._usuarios[self._usuario_actual].usuario.carpetas["Papelera"].vaciar_mensajes()
+        print('La papelera se ah vaciado exitosamente')
 
-    def eliminar_carpeta(self):
+    def eliminar_carpeta(self, nombre_carpeta):
         #Metodo para eliminar una carpeta
-        pass
+        #Se verifica que el usuario tenga la sesion iniciada.
+        if self._usuario_actual == None:
+            raise ValueError('No hay una sesión iniciada')
+        #Si la carpeta que se quiere eliminar pertenece a las carpetas creadas por defecto, entonces no se va a poder eliminar
+        usuario = self._usuarios[self._usuario_actual]
+        if nombre_carpeta in usuario.carpetas:
+            raise ValueError(f'La carpeta {nombre_carpeta} pertenece a las carpetas por defectos del servidor, no es posible eliminarla.')
+        carpeta =  usuario.carpetas[nombre_carpeta]
+        usuario.eliminar_carpeta(carpeta)
+        print(f'La carpeta {nombre_carpeta} ah sido eliminada exitosamente')
 
     #                                    ----- Aca comienzan los métodos de manejo de mensajes -----
 
