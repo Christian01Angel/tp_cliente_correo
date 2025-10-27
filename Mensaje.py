@@ -2,8 +2,8 @@ from datetime import datetime
 
 class Mensaje():
     id = 1
-    def __init__(self,asunto,remitente,destinatario, contentMsj, adjunto = []):
-        self._msj_id = Mensaje.id
+    def __init__(self,asunto, remitente, destinatario, contentMsj):
+        self.msj_id = Mensaje.id
         Mensaje.id +=1
         self._asunto = asunto
         self._remitente = remitente
@@ -13,7 +13,7 @@ class Mensaje():
         self._carpeta_destino = "Bandeja de entrada" #atributo para saber en que carpeta se encuentra el msj
         self._leido = False #atributo para saber si el msj fue leído o no
         self._destacado = False #Atributo que guarda al msj como destacado o no.
-        self._adjuntos = adjunto #atributo para guardar los archivos adjuntos del msj
+        self._adjuntos = self.agregar_adjunto() #atributo para guardar los archivos adjuntos del msj
 
         # Atributos públicos, relación con otros Mensajes
         self.mensajeAnterior = None
@@ -95,20 +95,26 @@ class Mensaje():
         #Metodo para saber si el mensaje es destacado o no
         return self._destacado
 
-    def agregar_adjunto(self, adjunto):
+    def agregar_adjunto(self):
         #Metodo para agregar un archivo adjunto al mensaje
-        self._adjuntos.append(adjunto)
-        print(f"Adjunto '{adjunto}' agregado.")
+        decision = input('Desea aregar algun adjunto? (s/n): ').lower()
+        while (decision == 's'):
+            adjunto = input()
+            self.adjuntos.append()
+            print(f"Adjunto '{adjunto}' agregado.")
+            decision = input('Desea aregar otro adjunto? (s/n): ').lower()
+        if not self.adjuntos:
+            self.adjuntos = None
 
     def leer(self):
         #Metodo para leer el mensaje completo. Támbien lo marca como leído
-        print(f"{self._asunto}")
-        print(f"{self.remitente} -- {self.fecha_envio}")
-        print(f"Para {self.destinatario}")
-        print(f"")
-        print(f"{self._cuerpo}")
-        if self._adjuntos:
-            print(f"{self._adjuntos}")
+        print(f"""Asunto : {self._asunto}
+De: {self.remitente} -- {self.fecha_envio}
+Para {self.destinatario}
+
+{self._cuerpo}""")
+        if self.adjuntos:
+            print(f"{self.adjuntos}")
         self._leido = True
 
     def mensaje_preview(self):
@@ -116,7 +122,7 @@ class Mensaje():
         print(f"""{self.remitente} - {self.fecha_envio}
 {self.asunto}
 {self.cuerpo[:40]}...
-{self._adjuntos}
+{self.adjuntos}
 """)
 
 """

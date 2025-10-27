@@ -19,7 +19,7 @@ class Email(ABC):
         pass
 
     @abstractmethod
-    def moificar_password(self):
+    def modificar_password(self):
         pass
 
     @abstractmethod
@@ -35,7 +35,7 @@ class Email(ABC):
     def reenviar(self):
         pass
 
-    @abstractmethod
+    @abstractmethod    #ELIMINAR ESTE METODO
     def abrir_mail(self):
         pass
 

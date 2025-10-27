@@ -64,9 +64,12 @@ class Usuario():
         if nombre not in self._carpetas:
             raise ValueError(f'La carpeta {nombre} no forma parte de tu colección de carpetas')
         print(carpeta.nombre_carpeta)
+        mensajes = []
         carpeta_usuario = self._carpetas[nombre]
         for msj in carpeta_usuario.mensajes:
             msj.mensaje_preview()
+            mensajes.append(msj)
+        return mensajes
 
 
 

@@ -1,15 +1,14 @@
-import Usuario
-import Carpeta
-import Mensaje
-import Email
+from Usuario import Usuario
+from Carpeta import Carpeta
+from Mensaje import Mensaje
+from Email import Email
 
 class ServidorCorreo(Email):
     def __init__(self):
-        super().__init__
         self.usuario_actual = None
         self._dominio = "@spider.com"
         self._usuarios = {}
-        self._carpetas_por_defecto = self.cargar_carpetas() #Cargamos las carpetas por defecto que maneja el servidor
+        self._carpetas_por_defecto = self.crear_carpetas_por_defecto() #Cargamos las carpetas por defecto que maneja el servidor
 
     
     #                              ----- Aca comienzan los métodos de usuarios -----
@@ -113,7 +112,7 @@ class ServidorCorreo(Email):
         if self._usuario_actual == None:
             raise ValueError('No hay una sesión iniciada')
         #Se manda a llamar el método para visualizar carpetas del usuario
-        usuario = self._usuarios[self._usuario_actual].ver_carpeta(nombre_carpeta)
+        self._usuarios[self._usuario_actual].ver_carpeta(nombre_carpeta)
     
     def vaciar_papelera(self):
         #Metodo para vaciar la papelera
@@ -135,25 +134,70 @@ class ServidorCorreo(Email):
         carpeta =  usuario.carpetas[nombre_carpeta]
         usuario.eliminar_carpeta(carpeta)
         print(f'La carpeta {nombre_carpeta} ah sido eliminada exitosamente')
-
+        
     #                                    ----- Aca comienzan los métodos de manejo de mensajes -----
 
     #Metodo para enviar mensajes
     def enviar_mail(self):
         #Metodo para enviar un mensaje
-        pass
+        asunto = input('Ingrese el asunto del mensaje: ')
+        remitente = self._usuario_actual
+        destinatario = input('Ingrese el correo del destinatario: ')
+        contentMsj = input('Ingrese el contenido del msj: ')
+        mensaje = Mensaje(asunto, remitente, destinatario, contentMsj)
+        #Se agrega el mensaje a la carpeta enviados del remitente
+        self._usuarios[remitente].carpetas['Enviados'].mensajes[mensaje.msj_id] = mensaje
+        #Se agrega el mensaje a la carpeta Bandeja de Entrada del destinatario
+        self._usuarios[destinatario].carpetas['Bandeja de entrada'].mensajes[mensaje.msj_id] = mensaje
+        print(f'El mensaje {mensaje.msj_id} se envío correctamente')
+
 
     def reenviar(self):
         #Metodo para reenviar un mensaje
-        pass
+        asunto = self.asunto
+        remitente = self.destinatario
+        destinatario = input('Ingrese el correo del destinatario: ')
+        contentMsj = self.cuerpo
+        mensaje = Mensaje(asunto, remitente, destinatario, contentMsj)
+        #Se agrega el mensaje a la carpeta enviados del remitente
+        self._usuarios[remitente].carpetas['Enviados'].mensajes[mensaje.msj_id] = mensaje
+        #Se agrega el mensaje a la carpeta Bandeja de Entrada del destinatario
+        self._usuarios[destinatario].carpetas['Bandeja de entrada'].mensajes[mensaje.msj_id] = mensaje
+        print(f'El mensaje {mensaje.msj_id} se envío correctamente')
 
-    def abrir_mail(self):
+    def abrir_mail(self):               #ESTE METODO NO IRÍA --  SACAR DE ACA Y DE LA CLASE MAIL
         #Metodo para abrir un mensaje
         pass
 
     def responder(self):
         #Metodo para responder un mensaje
-        pass
+        asunto = "RE: " + self.asunto
+        remitente = self.destinatario
+        destinatario = self.remitente
+        contentMsj = input('Ingrese el contenido del mensaje: ')
+        mensaje = Mensaje(asunto, remitente, destinatario, contentMsj)
+        #Se agrega el mensaje a la carpeta enviados del remitente
+        self._usuarios[remitente].carpetas['Enviados'].mensajes[mensaje.msj_id] = mensaje
+        #Se agrega el mensaje a la carpeta Bandeja de Entrada del destinatario
+        self._usuarios[destinatario].carpetas['Bandeja de entrada'].mensajes[mensaje.msj_id] = mensaje
+        print(f'El mensaje {mensaje.msj_id} se envío correctamente')
 
-    def buscar_mail(self):
-        pass
+    def buscar_mail(self, carpeta):
+        #Método para buscar un mail
+        buscar = input('Ingrese la/s palabra/s o letra/s a buscar: ')
+        resul_busqueda = []
+        cont = 0
+        for msj in carpeta.mensajes:
+            if buscar in msj.asunto | buscar in msj.remitente | buscar in msj.destinatario | buscar in msj.cuerpo:
+                resul_busqueda.append(msj)
+                cont += 1
+        print('Se encontraron {cont} mensajes')
+        if resul_busqueda:
+            for msj in resul_busqueda:
+                msj.mensaje_preview()
+
+
+
+#Main: pruebas de la clase ServidorCorreo
+if __name__ == "__main__":
+    spiderCom = ServidorCorreo()
