@@ -2,9 +2,10 @@ from datetime import datetime
 
 class Mensaje():
     id = 1
-    def __init__(self,asunto, remitente, destinatario, contentMsj):
+    def __init__(self,asunto, remitente, destinatario, contentMsj, adjuntos: list = None):
         self.msj_id = Mensaje.id
         Mensaje.id +=1
+
         self._asunto = asunto
         self._remitente = remitente
         self._destinatario = destinatario
@@ -13,11 +14,17 @@ class Mensaje():
         self._carpeta_destino = "Bandeja de entrada" #atributo para saber en que carpeta se encuentra el msj
         self._leido = False #atributo para saber si el msj fue leído o no
         self._destacado = False #Atributo que guarda al msj como destacado o no.
-        self._adjuntos = self.agregar_adjunto() #atributo para guardar los archivos adjuntos del msj
+
+        
+        # Inicia adjuntos
+        self._adjuntos = adjuntos if adjuntos is not None else []
+        
+
+        # self._adjuntos = self.agregar_adjunto() #atributo para guardar los archivos adjuntos del msj
 
         # Atributos públicos, relación con otros Mensajes
-        self.mensajeAnterior = None
-        self.mensajeSiguiente = None
+        self._mensajeAnterior = None
+        self._mensajeSiguiente = None
 
     #                                                   ----- Getters y Setters -----
 
@@ -55,12 +62,46 @@ class Mensaje():
     def adjuntos(self):
         #Metodo para obtener los archivos adjuntos del mensaje
         return self._adjuntos
+    
+    @property
+    def destacado(self):
+        return self._destacado
+    
+    @property
+    def leido(self):
+        """Getter para el estado de leido."""
+        return self._leido
+
+    @leido.setter
+    def leido(self, estado: bool):
+        self._leido = estado
+    
+    @destacado.setter
+    def destacado(self, estado: bool):
+        self._destacado = estado
 
     @carpeta_destino.setter
     def carpeta_destino(self, nuevaCarpeta):
         #Metodo para mover un mensaje a una carpeta en particular
         self._carpeta_destino = nuevaCarpeta
         print(f"Mensaje movido a la carpeta '{nuevaCarpeta}' exitosamente.")
+
+
+    @property
+    def mensajeAnterior(self):
+        return self._mensajeAnterior
+
+    @mensajeAnterior.setter
+    def mensajeAnterior(self, msj):
+        self._mensajeAnterior = msj
+
+    @property
+    def mensajeSiguiente(self):
+        return self._mensajeSiguiente
+
+    @mensajeSiguiente.setter
+    def mensajeSiguiente(self, msj):
+        self._mensajeSiguiente = msj
 
     #                                                ----- Métodos para manejo de Mensajes -----
         
@@ -80,58 +121,50 @@ class Mensaje():
         #Metodo para saber si el mensaje fue leído o no
         return self._leido  
     
-    def marcar_destacado(self):
+    def alternar_destacado(self):
         #Método para marcar o desmarcar el mensaje como destacado
-        if not self._destacado:
-            self._destacado = True
-            self._carpeta_destino = "Destacado"
-            print("Mensaje marcado como destacado.")
+        self.destacado = not self.destacado
+
+        if self.destacado:
+            print("Mensaje marcado como destacado")
         else:
-            self._destacado = False
-            self._carpeta_destino = "Bandeja de entrada"
-            print("Mensaje desmarcado como destacado.")
+            print("Mensaje desmarcado como destacado")
 
     def es_destacado(self):
         #Metodo para saber si el mensaje es destacado o no
         return self._destacado
 
-    def agregar_adjunto(self):
+    def agregar_adjunto(self, archivo: str):
         #Metodo para agregar un archivo adjunto al mensaje
-        decision = input('Desea aregar algun adjunto? (s/n): ').lower()
-        while (decision == 's'):
-            adjunto = input()
-            self.adjuntos.append()
-            print(f"Adjunto '{adjunto}' agregado.")
-            decision = input('Desea aregar otro adjunto? (s/n): ').lower()
-        if not self.adjuntos:
-            self.adjuntos = None
+        if archivo:
+            self._adjuntos.append(archivo)
+            print(f"Adjunto '{archivo}' agregado")
+
 
     def leer(self):
         #Metodo para leer el mensaje completo. Támbien lo marca como leído
-        print(f"""Asunto : {self._asunto}
-De: {self.remitente} -- {self.fecha_envio}
-Para {self.destinatario}
+        output = f"""Asunto : {self.asunto}
+De: {self.remitente} -- {self.fecha_envio.strftime('%Y-%m-%d %H:%M')}
+Para: {self.destinatario}
 
-{self._cuerpo}""")
-        if self.adjuntos:
-            print(f"{self.adjuntos}")
-        self._leido = True
+{self.cuerpo}"""
+        if self._adjuntos:
+            output += f"\nAdjuntos: {', '.join(self._adjuntos)}"
+
+        print(output)
+        self.marcar_leido()
 
     def mensaje_preview(self):
         #Muestra una vista previa del mensaje para la lista de la carpeta.
-        print(f"""{self.remitente} - {self.fecha_envio}
-{self.asunto}
-{self.cuerpo[:40]}...
-{self.adjuntos}
-""")
-
-"""
-    def preview_msj(self):
-        pass
-        
-    def obtener_msj(self):
-        pass
-"""
+        adjuntos_str = f"({len(self._adjuntos)} adj.)" if self._adjuntos else ""
+        print(f"[{'L' if self._leido else ' '}] - {self.remitente} - {self.fecha_envio.strftime('%Y-%m-%d %H:%M')}")
+        print(f"  {self.asunto} {adjuntos_str}")
+        print(f"  {self.cuerpo[:40]}...")
+        # print(f"""{self.remitente} - {self.fecha_envio}
+        # {self.asunto}
+        # {self.cuerpo[:40]}...
+        # {self.adjuntos}
+        # """)
 
 
 #Main: Pruebas de la clase Mensaje

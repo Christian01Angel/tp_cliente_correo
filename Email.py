@@ -35,9 +35,9 @@ class Email(ABC):
     def reenviar(self):
         pass
 
-    @abstractmethod    #ELIMINAR ESTE METODO
-    def abrir_mail(self):
-        pass
+    # @abstractmethod    #ELIMINAR ESTE METODO
+    # def abrir_mail(self):
+    #     pass
 
     @abstractmethod
     def responder(self):

@@ -1,3 +1,5 @@
+from Carpeta import Carpeta
+
 class Usuario():
     _id = 1
     def __init__(self, nombreCompleto, direccMail, password):
@@ -34,9 +36,12 @@ class Usuario():
     @nombre.setter
     def nombre(self, nuevoNombre):
         self._nombre = nuevoNombre
-        
+
+    #agregue un value error, para que en caso del usuario escriba un formato no valido devuevle un Error   
     @correo.setter
     def correo(self, nuevoCorreo):
+        if "@" not in nuevoCorreo:
+            raise ValueError("Formato de correo invalido")
         self._correo = nuevoCorreo
 
     @password.setter
@@ -45,19 +50,36 @@ class Usuario():
 
     #                                            ----- Métodos de gestión de carpetas -----
 
-    def agregar_carpeta(self, carpeta):
+    def agregar_carpeta(self, carpeta: Carpeta):
+        if not isinstance(carpeta, Carpeta):
+            raise TypeError("El objeto debe ser un instancia de Carpeta")
+        
         nombre = carpeta.nombre_carpeta
         if nombre in self._carpetas:
-            raise ValueError(f'La carpeta {nombre} ya existe')
+            raise ValueError(f'La carpeta "{nombre}" ya existe')
+        
         self._carpetas[nombre] = carpeta
-        print(f'Carpeta {nombre} creada exitosamente')
+        print(f'Carpeta "{nombre}" creada exitosamente')
 
-    def eliminar_carpeta(self, carpeta):
-        nombre = carpeta.nombre_carpeta
-        if nombre not in self._carpetas:
-            raise ValueError(f'La carpeta que desea eliminar no existe')
-        del self._carpetas[nombre]
-        print(f'La carpeta {nombre} fue eliminada exitosamente')
+    def eliminar_carpeta(self, nombre_carpeta):
+        """Va a eliminar una carpeta principal (de nivel 0) de la coleccion del usuario"""
+        if nombre_carpeta not in self._carpetas:
+            raise ValueError(f'La carpeta "{nombre_carpeta}" no forma parte de tu coleccion')
+        
+        del self._carpetas[nombre_carpeta]
+        print(f'La carpeta "{nombre_carpeta}" fue eliminida exitosamente')
+
+    def obtener_carpeta(self, nombre_carpeta) -> Carpeta:
+        if nombre_carpeta not in self.carpetas:
+            raise ValueError(f'La carpeta "{nombre_carpeta}" no existe para este usuario')
+        return self._carpetas[nombre_carpeta]
+    
+    def listar_carpetas_principales(self) -> list:
+        """va a retornar un lista de los nombre de las carpetas de primer nivel"""
+        return list(self._carpetas.keys())
+
+
+
 
     def ver_carpeta(self, carpeta):
         nombre = carpeta.nombre_carpeta
